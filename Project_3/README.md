@@ -16,6 +16,8 @@ These 2 implements are both in file `object_recognition.py`.
 
 I did some small changes in `capture_features.py` to make the prediction a little more accurate. And the results look good.
 
+![COnfusion Matrixes][img0]
+
 ## Pick and Place Setup
 
 ### 1. For all three tabletop setups (`test*.world`), perform object recognition, then read in respective pick list (`pick_list_*.yaml`). Next construct the messages that would comprise a valid `PickPlace` request output them to `.yaml` format.
@@ -34,6 +36,7 @@ When I tried the world 3 in the Pick and Place Setup part, I encountered couple 
 
 I am feeling so frustrated that I don't have enough time to implement the robot motion part. I tried a little bit but cannot make it work, and today is the due date for this project, I have to summit what I have done and hurry to the next one. It's holiday season, I am worry a lot about the deadline. If I can complete the next project in time, I will back to all the missing challenges in the extended 4 weeks.
 
+[img0]: ./imgs/img0.png
 [img1]: ./imgs/img1.png
 [img2]: ./imgs/img2.png
 [img3]: ./imgs/img3.png
