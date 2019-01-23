@@ -10,7 +10,7 @@ This is my understanding of FCN:
 
 ![img1][img1]
 
-## Encoder Part
+### Encoder Part
 
 The encoder part will transform the input image to semantic representation. We can add multiple layers to make the network finding out generic representation.
 
@@ -29,7 +29,7 @@ def encoder_block(input_layer, filters, strides):
     return output_layer
 ```
 
-## 1x1 Convolution
+### 1x1 Convolution
 
 The 1x1 convolution is between the encode and decode parts. Here is the code looks like:
 
@@ -40,7 +40,7 @@ def conv2d_batchnorm(input_layer, filters, kernel_size=3, strides=1):
     return output_layer
 ```
 
-## Decoder Part
+### Decoder Part
 
 The decoder part will upsample the 1x1 convolution to the same size as the input image. We will use the same layers to transpose the data. 
 
@@ -60,6 +60,15 @@ def decoder_block(small_ip_layer, large_ip_layer, filters):
     output_layer = separable_conv2d_batchnorm(output_layer, filters)
     return output_layer
 ```
+
+### Why and When
+
+[From the Lesson 35/8] The encoder portion is a convolution network that reduces to a deeper 1x1 convolution layer. It reduces in the number of parameters. The reduction in the parameters make separable convolutions quite efficient with improved runtime performance, they also have the added benefit of reducing overfitting to an extent, because of the fewer parameters.
+
+### Differences between 1x1 and fully connected layers
+
+- First, 1x1 covolution works for different image size, but the fully connected layers only works for fixed size.
+- The 1x1 covolution keeps spacial information, but the fully connected layers will transform all dimensions to a single vector, which will lose the spacial information.
 
 ## Model layer
 
@@ -113,15 +122,14 @@ I tried to modified the default values a little bit to make them look like close
 
 Here the results:
 
-
 Layer No. | loss | val_loss | weight | IoU | score
-- | - | - | - | - | -
+-|-|-|-|-|-
 1 | 0.06 | 0.082 | 0.7098445595854922 | 0.302873399539 | 0.214993034906
-Layer 2 | 0.0472 | 0.0586 | 0.6825396825396826 | 0.334882189654 | 0.228570383415
-Layer 3	| 0.041 | 0.053 | 0.6547368421052632 | 0.450711088192 | 0.295097154584
-Layer 4	| 0.0393 | 0.1481 | 0.6541095890410958 | 0.406761774809 | 0.266066777358
-**Table 1: Pick the layer number** 
+2 | 0.0472 | 0.0586 | 0.6825396825396826 | 0.334882189654 | 0.228570383415
+3 | 0.041 | 0.053 | 0.6547368421052632 | 0.450711088192 | 0.295097154584
+4 | 0.0393 | 0.1481 | 0.6541095890410958 | 0.406761774809 | 0.266066777358
 
+**Table 1: Pick the layer number** 
 
 Looks like when `layer = 3` I got the best result. So I decided to pick model layer 3.
 
@@ -140,6 +148,14 @@ I think the learning rate is not linear. Start from `0.1`, I decided to try the 
 ## Number of Epochs
 
 I think the epoch number just simple increase the compute time to make a better result. Each computation will cost me about 30 to 45 seconds, so during the test I use 5 for most of the time. After I have decided other parameters. I will increase the epoch number linearly to try to figure out the best value but less computation.
+
+`Review: You should add more information to your results section, it should contain a discussion on the different results achieved (different metrics), and what can be done to improve it.`
+
+First, I tried to find out the batch size value. Actully I am not quite sure how to find out the best value because I don't know how this parameter will impact the final socre. Firstly I think using 1 is good enought. I did some research online then I noticed someone suggesting using sample number divided around 200 (or 150-250) to get better practice. So I start from 16. I also tried 32 and 64 but I didn't see any obvious different in final socre. So I randomly using 16 and 32 for the rest of the computation.
+
+Then I started to find out the learning rate. I use the default values for other parameters, then tried the following rate: `0.1, 0.05, 0.01, 0.005, 0.02, 0.011, 0.009, 0.008`. I noticed that when I pick 0.01, the final score did not change much but I can get the best `loss`. Also when I pick `0.009` or `0.011`, I cannot see much different (which is not recorded in the table below). So I dedice to chose `0.01`.
+
+Secondarily, I try to find out the best epochs number. As I discribed above, I think the epochs just increase the compute time to get better `loss`. I tried `5, 10, 15, 20, 30, 40, 50` (some are not recorded in table). I noticed that after `epoch > 30`, the `loss` does not change much. From 5 to 30, the average `loss` reduced around from `0.065` to `0.035`, but from `30` to `50`, it only reduced from `0.035` to `0.033`. So I thing the best choice should between 30 and 50. I randomly using 30 and 50 for the rest of my work. I think it will not impact the result very much. But I didn't try any value larger than 50 because I think it must be overfitting.
 
 learning rate | batch size | epochs | validation steps | loss | val_loss | weight | IoU | score
 -|-|-|-|-|-|-|-|-|-|-|-
