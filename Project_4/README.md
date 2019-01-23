@@ -44,10 +44,6 @@ def conv2d_batchnorm(input_layer, filters, kernel_size=3, strides=1):
 
 The decoder part will upsample the 1x1 convolution to the same size as the input image. We will use the same layers to transpose the data. 
 
-Also I will use skip connections to get more accurate segmentation decisions.
-
-![img3][img3]
-
 The decoder code looks like:
 
 ```python
@@ -69,6 +65,12 @@ def decoder_block(small_ip_layer, large_ip_layer, filters):
 
 - First, 1x1 covolution works for different image size, but the fully connected layers only works for fixed size.
 - The 1x1 covolution keeps spacial information, but the fully connected layers will transform all dimensions to a single vector, which will lose the spacial information.
+
+### Layer Concatenation
+
+During the encoding and decoding, some details will lost in the layers. So I will use layer connections to get more accurate segmentation decisions. Concatenating two layers, the upsampled layer and a layer with more spatial information than the upsampled one, presents us with the same functionality.
+
+![img3][img3]
 
 ## Model layer
 
@@ -158,7 +160,7 @@ Then I started to find out the learning rate. I use the default values for other
 Secondarily, I try to find out the best epochs number. As I discribed above, I think the epochs just increase the compute time to get better `loss`. I tried `5, 10, 15, 20, 30, 40, 50` (some are not recorded in table). I noticed that after `epoch > 30`, the `loss` does not change much. From 5 to 30, the average `loss` reduced around from `0.065` to `0.035`, but from `30` to `50`, it only reduced from `0.035` to `0.033`. So I thing the best choice should between 30 and 50. I randomly using 30 and 50 for the rest of my work. I think it will not impact the result very much. But I didn't try any value larger than 50 because I think it must be overfitting.
 
 learning rate | batch size | epochs | validation steps | loss | val_loss | weight | IoU | score
--|-|-|-|-|-|-|-|-|-|-|-
+-|-|-|-|-|-|-|-|-
 0.1 | 16 | 5 | 50 | 0.0444 | 0.0531 | 0.6421370967741935 | 0.454386835853 | 0.291778643587
 0.05 | 16 | 5 | 50 | 0.0434 | 0.0958 | 0.6820234869015357 | 0.469013955786 | 0.319878533531
 0.01 | 16 | 5 | 50 | 0.0357 | 0.0332 | 0.6658878504672897 | 0.367571894119 | 0.244761658467
