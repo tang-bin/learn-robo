@@ -72,6 +72,14 @@ During the encoding and decoding, some details will lost in the layers. So I wil
 
 ![img3][img3]
 
+### Review3: Which information do we lose? Which information does the decoder recover?
+
+In our case, since the model is trained with certain example, so all the imformation in picture will be categoried to 3 classes: the hero, other people, and all rest.
+
+![Compare the input and output][img6]
+
+Check the picture above. The left is the input image, center is the classified output, and the right one is the FCN output. We lost all unrelated information for the hero and people. Compare to the input image, the decoded picture contains all the classified information but nothing else.
+
 ## Model layer
 
 First I need to figure out how many layers I need for the model size.
@@ -206,3 +214,4 @@ Another problem is that to figure out the parameters costed me lots of time. I h
 [img3]: ./imgs/img3.png
 [img4]: ./imgs/img4.png
 [img5]: ./imgs/img5.png
+[img6]: ./imgs/img6.png
