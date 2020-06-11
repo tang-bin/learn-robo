@@ -30,9 +30,10 @@ void process_image_callback(const sensor_msgs::Image img)
 
     for (i = 0; i < h; i++)
     {
+        int preIdx = i * w * 3;
         for (j = 0; j < w; j++)
         {
-            int idx = (i * h + j) * 3;
+            int idx = preIdx + j * 3;
             if (img.data[idx] == white_pixel && img.data[idx + 1] == white_pixel && img.data[idx + 2] == white_pixel)
             {
                 if(move == 0){
