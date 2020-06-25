@@ -9,15 +9,44 @@
         <param name="odom_model_type" value="diff-corrected"/>
         <param name="base_frame_id" value="robot_footprint"/>
         <param name="global_frame_id" value="map"/>
-        <!-- initial position  -->
+        
+        <!-- For the project, set the position to [0, 0].  -->
         <param name="initial_pose_x" value="0"/>
         <param name="initial_pose_y" value="0"/>
-        <!-- tune -->
-        <param name="min_particles" value="10" />
-        <param name="max_particles" value="20" />
-        <param name="transform_tolerance" value="0.3" />
-        <param name="laser_z_hit" value="0.9"/>
-        <param name="lazer_z_rand" value="0.1" />
+        
+        <!-- A larger range, with a high maximum might be too computationally extensive for a low-end system. -->
+        <param name="min_particles" value="3000" />
+        <param name="max_particles" value="5000" />
+        
+        <!-- double, default PI/6 radians. Rotational movement required before performing a filter update. -->
+        <param name="update-min-a" value="0.3" />
+        
+        <!-- double, default 0.2 meters. Ranslational movement required before performing a filter update.  -->
+        <param name="update-min-b" value="0.05" />
+        
+        <!-- default 0.1 second, Time with which to post-date the transform that is published, to indicate that this transform is valid into the future.  -->
+        <param name="transform_tolerance" value="0.1" />
+        
+        <!-- default 0.95. Mixture weight for the z_hit part of the model.  -->
+        <param name="laser_z_hit" value="0.8"/>
+        
+        <!-- default 0.05. Mixture weight for the z_max part of the model.  -->
+        <param name="lazer_z_rand" value="0.2" />
+        
+        <!-- default -0.1. Minimum scan range to be considered; -1.0 will cause the laser's reported minimum range to be used.  -->
+        <!-- <param name="laser_min_range" value="-1.0" /> -->
+        <!-- default -0.1. Maximum scan range to be considered; -1.0 will cause the laser's reported maximum range to be used.  -->
+        <!-- <param name="laser_max_range" value="-1.0" /> -->
+
+        <!-- default 30. How many evenly-spaced beams in each scan to be used when updating the filter.  -->
+        <!-- <param name="laser_max_beams" value="30" /> -->
+        
+        <!-- default 0.2. Specifies the expected noise in odometry's XXX estimate from the YYY component of the robot's motion:
+            1: rotation from rotational
+            2: rotation from translational
+            3: translation from translational 
+            4: translation from rotational
+         -->
         <param name="odom_alpha1" value="0.01" />
         <param name="odom_alpha2" value="0.01" />
         <param name="odom_alpha3" value="0.01" />
