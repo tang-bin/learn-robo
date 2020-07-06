@@ -9,12 +9,18 @@
         <arg name="world_name" value="$(arg world_file)"/>
     </include>
 
-    <arg name="x" default="2.051675"/>
+    <!-- <arg name="x" default="2.051675"/>
     <arg name="y" default="0.378901"/>
     <arg name="z" default="0"/>
     <arg name="roll" default="0"/>
     <arg name="pitch" default="0"/>
-    <arg name="yaw" default="0"/>
+    <arg name="yaw" default="0"/> -->
+    <arg name="x" default="0"/>
+    <arg name="y" default="0"/>
+    <arg name="z" default="0"/>
+    <arg name="roll" default="0"/>
+    <arg name="pitch" default="0"/>
+    <arg name="yaw" default="1.5707"/>
 
     <!-- Launch other relevant files-->
     <include file="$(find my_robot)/launch/robot_description.launch"/>
