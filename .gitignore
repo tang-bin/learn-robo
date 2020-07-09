@@ -10,3 +10,7 @@ kalman_lab/src/robot_pose_ekf/
 map_my_world/src/teleop_twist_keyboard/
 gmap/src/turtlebot/
 gmap/src/turtlebot_simulator/
+home_robot/src/turtlebot/
+home_robot/src/slam_gmapping/
+home_robot/src/turtlebot_interactions/
+home_robot/src/turtlebot_simulator/
