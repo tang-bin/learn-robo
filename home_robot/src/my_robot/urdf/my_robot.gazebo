@@ -27,7 +27,7 @@
   </gazebo>
 
   <!-- RGB-D camera -->
-  <gazebo reference="camera_link_optical">
+  <gazebo reference="camera">
     <sensor type="depth" name="camera2">
       <always_on>1</always_on>
       <update_rate>20.0</update_rate>
