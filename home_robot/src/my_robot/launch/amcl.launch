@@ -1,7 +1,7 @@
 <launch>
     <!-- map_server -->
-    <!-- <arg name="map_file" default="$(find my_robot)/maps/simpleRepo.yaml"/> -->
-    <!-- <node name="map_server" pkg="map_server" type="map_server" args="amcl" /> -->
+    <arg name="map_file" default="$(find my_robot)/maps/simpleRepo.yaml"/> -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
     <!-- amcl -->
     <node name="amcl" pkg="amcl" type="amcl" output="screen">
         <remap from="scan" to="/scan"/>
